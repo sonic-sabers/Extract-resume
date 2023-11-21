@@ -89,7 +89,7 @@ export const Form = ({
         showForm ? "pb-6" : "pb-2 opacity-60"
       }`}
     >
-      <div className="flex items-center justify-between gap-4">
+      {/* <div className="flex items-center justify-between gap-4">
         <div className="flex grow items-center gap-2">
           <Icon className="h-6 w-6 text-gray-600" aria-hidden="true" />
           <input
@@ -108,7 +108,7 @@ export const Form = ({
           )}
           <ShowIconButton show={showForm} setShow={setShowForm} />
         </div>
-      </div>
+      </div> */}
       <ExpanderWithHeightTransition expanded={showForm}>
         {children}
       </ExpanderWithHeightTransition>

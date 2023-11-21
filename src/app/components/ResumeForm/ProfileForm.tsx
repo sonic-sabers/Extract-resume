@@ -1,9 +1,11 @@
+import { Button } from "components/Button";
 import { BaseForm } from "components/ResumeForm/Form";
 import { Input, Textarea } from "components/ResumeForm/Form/InputGroup";
 import { useAppDispatch, useAppSelector } from "lib/redux/hooks";
 import { changeProfile, selectProfile } from "lib/redux/resumeSlice";
 import { ResumeProfile } from "lib/redux/types";
-
+import { utils, write, writeXLSX } from "xlsx";
+import { saveAs } from "file-saver";
 export const ProfileForm = () => {
   const profile = useAppSelector(selectProfile);
   const dispatch = useAppDispatch();
@@ -13,6 +15,21 @@ export const ProfileForm = () => {
     dispatch(changeProfile({ field, value }));
   };
 
+  const LogData = () => {
+    const data = [
+      ["Name", "Email", "Phone", "URL", "Summary", "Location"],
+      [name, email, phone, url, summary, location],
+    ];
+
+    const worksheet = utils.aoa_to_sheet(data);
+    const workbook = utils.book_new();
+    utils.book_append_sheet(workbook, worksheet, "Sheet1");
+    const excelBuffer = write(workbook, { type: "array", bookType: "xlsx" });
+
+    const blob = new Blob([excelBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+    saveAs(blob, "data.xlsx");
+  };
+
   return (
     <BaseForm>
       <div className="grid grid-cols-6 gap-3">
@@ -20,7 +37,7 @@ export const ProfileForm = () => {
           label="Name"
           labelClassName="col-span-full"
           name="name"
-          placeholder="Sal Khan"
+          placeholder="Ashish"
           value={name}
           onChange={handleProfileChange}
         />
@@ -36,7 +53,7 @@ export const ProfileForm = () => {
           label="Email"
           labelClassName="col-span-4"
           name="email"
-          placeholder="hello@khanacademy.org"
+          placeholder="ashish@bluelearn.in"
           value={email}
           onChange={handleProfileChange}
         />
@@ -44,7 +61,7 @@ export const ProfileForm = () => {
           label="Phone"
           labelClassName="col-span-2"
           name="phone"
-          placeholder="(123)456-7890"
+          placeholder="12323432"
           value={phone}
           onChange={handleProfileChange}
         />
@@ -52,7 +69,7 @@ export const ProfileForm = () => {
           label="Website"
           labelClassName="col-span-4"
           name="url"
-          placeholder="linkedin.com/in/khanacademy"
+          placeholder="linkedin.com/in/ashish"
           value={url}
           onChange={handleProfileChange}
         />
@@ -60,11 +77,14 @@ export const ProfileForm = () => {
           label="Location"
           labelClassName="col-span-2"
           name="location"
-          placeholder="NYC, NY"
+          placeholder="Blr"
           value={location}
           onChange={handleProfileChange}
         />
       </div>
+      <button type="button" className="btn-primary" onClick={LogData}>
+        Import and Continue <span aria-hidden="true">→</span>
+      </button>
     </BaseForm>
   );
 };

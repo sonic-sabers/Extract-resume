@@ -31,6 +31,7 @@ export const ResumeForm = () => {
   const formsOrder = useAppSelector(selectFormsOrder);
   const [isHover, setIsHover] = useState(false);
 
+  console.log(formsOrder);
   return (
     <div
       className={cx(
@@ -46,7 +47,7 @@ export const ResumeForm = () => {
           const Component = formTypeToComponent[form];
           return <Component key={form} />;
         })}
-        <ThemeForm />
+        {/* <ThemeForm /> */}
         <br />
       </section>
       <FlexboxSpacer maxWidth={50} className="hidden md:block" />
